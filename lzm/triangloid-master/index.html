@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Triangloid多边形转换</title>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../styles/index.css"/>
+
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <base target="_blank"/>
+    <meta property="og:image" content="img/triangloid.png">
+</head>
+
+<body>
+    <div class="nav">
+        <!--<img class="icon" src="image/beiyinglaomingming.png"/>-->
+
+        <li class="listitem"><a href="../index.html" target="_self">首页</a>
+            <!--<div class="drown-content">-->
+            <!--<p>菜鸟教程</p>-->
+            <!--<p>www.runoob.com</p>-->
+            <!--</div>-->
+        </li>
+        <li class="dropdown"><a href="#new">工具</a>
+            <div class="dropdown-content">
+                <a href="triangloid-master/index.html" target="_self">Triangloid</a>
+
+            </div>
+        </li>
+        <li class="listitem"><a href="#contact">留白</a></li>
+        <li class="listitem"><a href="#xixi">嘻嘻</a></li>
+
+        <li class="lastitem"><a href="#about">关于</a></li>
+    </div>
+
+    <div class="container">
+        <div class="options">
+            <h1>Triangloid</h1>
+            <h2>Options</h2>
+            <label for="cell-size-input">Cellsize:</label>
+            <input value="10" id="cell-size-input" />
+            <div class="bottom-align">
+                <div class="btn-container">
+                    <div class="btn trianglify-btn">Trianglify</div>
+                    <div class="btn download-btn">Download</div>
+                </div>
+                <!--<a href="http://github.com/asifmallik/triangloid">View Source Code</a>-->
+            </div>
+        </div>
+
+        <div class="main">
+        <label for="imageInput">
+            <div id="drop-zone" class="hover">&nbsp;
+                <div class="drop-label">Drop your image or click here</div>
+            </div>
+        </label>
+        <!--<h2>Developed by Asif Mallik</h2>-->
+        <!--<div class="social"><a href="http://google.com/+AsifMallik"><img src="img/google-plus.png"/></a><a href="http://youtube.com/TheAsifMallik"><img src="img/youtube.png"/></a><a href="http://twitter.com/TheAsifMallik"><img src="img/twitter.png"/></a><a href="http://facebook.com/TheAsifMallik"><img src="img/facebook.png"/></a><a href="http://asifmallik.deviantart.com/"><img src="img/deviantart.png"/></a></div>-->
+        </div>
+    </div>
+    <input type="file" id="imageInput" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="triangloid.js"></script>
+    <script>
+        var cellsize = 10;
+        var image, imageHeight, imageWidth, backgroundSize, svg;
+
+        function getImagePixelData(img) {
+            var canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+            var imageData = ctx.getImageData(0, 0, img.width, img.height);
+            var mappedData = [];
+            for (var i = 0; i < imageData.data.length; i += 4) {
+                mappedData.push([imageData.data[i], imageData.data[i + 1], imageData.data[i + 2]]);
+            }
+            return mappedData;
+        }
+        var dropZone = document.getElementById('drop-zone');
+        dropZone.ondragover = function() {
+            this.className = 'hover';
+            return false;
+        };
+        dropZone.ondragleave = function() {
+            dropZone.className = "";
+        }
+        dropZone.ondragend = function() {
+            dropZone.className = "";
+            return false;
+        };
+        dropZone.ondrop = processInput;
+        document.getElementById("imageInput").onchange = processInput;
+
+        $("#cell-size-input").keyup(function() {
+            cellsize = parseInt($(this).val());
+        });
+        $(".trianglify-btn").click(function() {
+            draw(image);
+            $(".download-btn").addClass("visible");
+        });
+        $(".download-btn").click(function() {
+            document.location.href = svg.replace("image/svg+xml", "image/octet-stream");
+        });
+
+        function processInput(e) {
+            dropZone.className = "";
+            e.preventDefault();
+            if (e.target.files) {
+                var file = e.target.files[0];
+            } else {
+                var file = e.dataTransfer.files[0];
+            }
+
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                image = new Image();
+                image.onload = function() {
+                    var dropZoneWidth = $(dropZone).width();
+                    var dropZoneHeight = $(dropZone).height();
+                    var dropZoneRatio = dropZoneWidth / dropZoneHeight;
+                    var imageRatio = image.width / image.height;
+                    backgroundSize = "";
+                    if (image.width > dropZoneWidth) { //Could be expressed in smaller chunks...
+                        if (image.height > dropZoneHeight) {
+                            if (imageRatio > dropZoneRatio) {
+                                backgroundSize += dropZoneWidth + "px";
+                                backgroundSize += " ";
+                                backgroundSize += dropZoneWidth / imageRatio + "px";
+                            } else {
+                                backgroundSize += dropZoneHeight * imageRatio + "px";
+                                backgroundSize += " ";
+                                backgroundSize += dropZoneHeight + "px";
+                            }
+                        } else {
+                            backgroundSize += dropZoneWidth + "px";
+                            backgroundSize += " ";
+                            backgroundSize += dropZoneWidth / imageRatio + "px";
+                        }
+                    } else if (image.height > dropZoneHeight) {
+                        backgroundSize += dropZoneHeight * imageRatio + "px";
+                        backgroundSize += " ";
+                        backgroundSize += dropZoneHeight + "px";
+                    } else {
+                        backgroundSize = image.width + "px " + image.height + "px";
+                    }
+                    dropZone.style.background = 'url(' + imageData + ') no-repeat center';
+                    dropZone.style.backgroundSize = backgroundSize;
+                    console.log(dropZone.style.backgroundSize);
+                    $(".trianglify-btn").addClass("visible");
+                    $(".download-btn").removeClass("visible");
+                }
+                image.src = imageData = event.target.result;
+            };
+            reader.readAsDataURL(file);
+            return false;
+        }
+
+        function draw(img) {
+            var imageData = getImagePixelData(img);
+            var triangloid = new Triangloid({
+                cellsize: cellsize
+            });
+
+            var trianglifiedImage = triangloid.trianglifyImage(imageData, img.width, img.height);
+            svg = trianglifiedImage.getSVG();
+            dropZone.style.background = 'url(' + svg + ') no-repeat center';
+            dropZone.style.backgroundSize = backgroundSize;
+
+        }
+    </script>
+</body>
+
+</html>

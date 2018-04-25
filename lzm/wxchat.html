@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="scripts/jquery-3.3.1.js"></script>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        body {
+            position: relative;
+            width: 100%;
+        }
+
+        div#fixd {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            height: 100px;
+            width: 100%;
+            background: red;
+            z-index: 10;
+        }
+
+        div#main {
+            z-index: 1;
+            width: 100%;
+            height: 2000px;
+            background: green;
+        }
+    </style>
+    <script type="text/javascript">
+        $(function() {
+            function scroll(fn) {
+                var beforeScrollTop = document.body.scrollTop,
+                    fn = fn || function() {};
+                window.addEventListener("scroll", function() {
+                    var afterScrollTop = document.body.scrollTop,
+                        delta = afterScrollTop - beforeScrollTop;
+                    if(delta === 0) return false;
+                    fn(delta > 0 ? "down" : "up");
+                    beforeScrollTop = afterScrollTop;
+                }, false);
+            }
+            scroll(function(direction) {
+                if(direction=="down"){
+                    $("#fixd").hide();
+                }else{
+                    $("#fixd").show();
+                }
+
+            });
+        });
+    </script>
+</head>
+
+<body>
+<div id="fixd">
+
+</div>
+<div style="height: 100px;
+                width: 100%;background: green;">
+
+</div>
+<div id="main">
+    aaaaaaaaaaaaaaaaaaaaaaaa
+</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        ul{
+            list-style: none;
+        }
+        .nav>li{
+            float: left;
+        }
+        ul a{
+            display: block;
+            text-decoration: none;
+            width: 100px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            color: white;
+            background-color: #2f3e45;
+        }
+        .nav>li:first-child a{
+            border-radius: 10px 0 0 10px;
+        }
+        .nav>li:last-child a{
+            border-radius: 0 10px 10px 0;
+        }
+        .drop-down{
+            /*position: relative;*/
+        }
+        .drop-down-content{
+            padding: 0;
+            display: none;
+            /*position: absolute;*/
+        }
+
+        h3{
+            font-size: 30px;
+            clear: both;
+        }
+        .drop-down-content li:hover a{
+            background-color:red;
+        }
+        .nav .drop-down:hover .drop-down-content{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<ul class="nav">
+    <li><a href="#">下拉菜单</a></li>
+    <li class="drop-down"><a href="#">下拉菜单</a>
+        <ul class="drop-down-content">
+            <li><a href="#">我是1</a></li>
+            <li><a href="#">我是2</a></li>
+            <li><a href="#">我是3</a></li>
+        </ul>
+    </li>
+    <li><a href="#">下拉菜单</a></li>
+    <li><a href="#">下拉菜单</a></li>
+    <li><a href="#">下拉菜单</a></li>
+</ul>
+<h3>我是测试文字</h3>
+<input type="button" value="aaa" onclick="alert(this.value)">
+</body>
+</html>
+</body>
+
+</html>

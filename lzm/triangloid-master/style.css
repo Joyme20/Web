@@ -1,0 +1,123 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: "Raleway", arial;
+    text-transform: uppercase;
+    color: #fff;
+}
+.container {
+    width: 100%;
+    min-height: 550px;
+    height: 100%;
+    background-color: #34495e;
+}
+
+.btn-container {
+    width: 100%;
+    text-align: center;
+}
+.btn {
+    margin-bottom: 5px;
+    text-align: center;
+    display: inline-block;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+    background-color: #3498db;
+    padding: 10px;
+    display: none;
+    cursor: default;
+    color: #fff;
+}
+.btn:hover {
+    background-color: #2980b9;
+}
+.btn.visible {
+    cursor: pointer;
+    display: inline-block;
+}
+.options {
+    /*position: relative;*/
+    vertical-align: top;
+    width: 25%;
+    display: block;
+    background-color: #fff;
+    color: #333;
+    height: 100%;
+}
+.options input {
+    padding: 5px;
+    font-family: "Raleway", arial;
+    width: 40px;
+    margin-left: 10px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.25s all;
+    -webkit-transition: 0.25s all;
+    -ms-transition: 0.25s all;
+    border: 1px solid #999;
+}
+.options input:focus {
+    border-color: #3498db;
+}
+.options label,
+.options h2,
+.options h1,
+.options a {
+    margin-left: 10px;
+}
+input[type="file"] {
+    display: none;
+}
+.main {
+    display: flex;
+    width: 75%;
+}
+#drop-zone {
+    margin-right: 0px;
+    height: 10vh;
+    background-color: #ecf0f1;
+    cursor: pointer;
+}
+.drop-label {
+    text-align: center;
+    margin: 150px auto;
+    width: 250px;
+    display: block;
+    transition: 0.5s opacity;
+    -webkit-transition: 0.5s opacity;
+    -ms-transition: 0.5s opacity;
+    background-color: #3498db;
+    padding: 10px;
+    opacity: 0;
+}
+.hover .drop-label,
+#drop-zone:hover .drop-label {
+    opacity: 1;
+}
+.main h2 {
+    vertical-align: top;
+    margin-left: 10px;
+    margin-bottom: 0px;
+    margin-top:10px;
+    display: inline-block;
+}
+h1,
+h2 {
+    font-weight: 300;
+}
+a {
+    text-decoration: none;
+}
+.bottom-align{
+    position:absolute;
+    bottom: 10px;
+    width: 100%;
+}
+.social{
+    display:inline-block;
+    float: right;
+}
+.social img{
+    height: 50px;
+}

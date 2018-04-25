@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lzmWebpack</title>
+    <!--<link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css"/>-->
+    <link rel="stylesheet" type="text/css" href="../styles/index.css"/>
+    <script type="text/javascript" src="../scripts/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="../scripts/indexJQ.js"></script>
+    <!--<script type="text/javascript" src="scripts/ban.js"></script>-->
+
+    <!--<script type="text/javascript" src="afterWebpack/bundle.js"></script>-->
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge" />-->
+    <mate name="viewport" content="width-device-width"></mate>
+</head>
+<body>
+<canvas></canvas>
+
+<img class="headImg" src="../image/背影画板 1.png" height="320" width="1366"/>
+
+<!--<div class="text">-->
+<!--<div class="text1">背</div>-->
+<!--<div class="text2">影</div>-->
+<!--</div>-->
+<script>
+    $(function () {
+        var nav = $(".nav");
+        var win = $(window);
+        var doc = $(document);
+        win.scroll(function () {
+            if (doc.scrollTop()>$(".headImg").height()- 0.5*doc.scrollTop()+20){
+                nav.addClass("fixednav");
+                $("li").addClass("fixedli");
+            }else{
+                nav.removeClass("fixednav");
+                $("li").removeClass("fixedli");
+            }
+        })
+    });
+    $(function () {
+        var background = $(".background");
+
+        var win = $(window);
+        var doc = $(document);
+
+        win.scroll(function () {
+            if (doc.scrollTop()<=$(".headImg").height()) {
+                background.css('top', ($(".headImg").height() - 0.5*doc.scrollTop()) +20+ "px");
+            }
+        })
+    });
+</script>
+
+<div class="background">
+    <div class="nav">
+        <!--<img class="icon" src="image/beiyinglaomingming.png"/>-->
+
+        <li class="listitem"><a href="../index.html">首页</a>
+            <!--<div class="drown-content">-->
+            <!--<p>菜鸟教程</p>-->
+            <!--<p>www.runoob.com</p>-->
+            <!--</div>-->
+        </li>
+        <li class="dropdown"><a href="#new">工具</a>
+            <div class="dropdown-content">
+                <a href="../triangloid-master/index.html" target="_self">Triangloid</a>
+
+            </div>
+        </li>
+        <li class="listitem"><a href="#contact">留白</a></li>
+        <li class="listitem"><a href="#xixi">嘻嘻</a></li>
+
+        <li class="lastitem"><a href="#about">关于</a></li>
+    </div>
+
+
+
+</div>
+
+
+</body>
+
+</html>

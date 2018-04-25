@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function addLoadEvent(func) {
+        var oldonload = window.onload;
+        if(typeof window.onload !== "function"){
+            window.onload = func;
+
+        }else{
+            window.onload = function () {
+                oldonload();
+                func();
+            }
+        }
+    }
+    function a() {
+        var a = [];
+        var b = a.push("1","2");
+        alert(b);
+
+        // b = a.push("30");
+        // alert(b);
+
+        var c = a.pop();
+        alert(c);
+    }
+    function regexp() {
+        var text = "bat,cat,mat";
+        var re = /.at/g;
+        var matches = re.exec(text)
+        alert(matches[0]);
+
+
+    }
+    // window.onload = regexp;
+
+    // addLoadEvent(a);
+
+    function iplus() {
+        // var result = [];result
+        for(var i=0; i<10; i++){
+            result[i] = function (num) {
+                return function () {
+                    return num;
+                };
+            }(i);
+            console.log(i);
+            // console.log(i);
+            // alert(i);
+        }
+        return result;
+        // console.log(result);
+
+    }
+    // addLoadEvent(iplus)
+    // var b = iplus();
+    // console.log(b);
+    // alert(b)
+
+    function outputNumbers(count) {
+        for(var i=0; i<count; i++){
+            console.log(i);
+        }
+        // console.log(i);
+    }
+    // outputNumbers(11)
+    // addLoadEvent(outputNumbers(11))
+    var globalVar;
+    function outer() {
+        // console.log('outer');
+        var a = "a";
+        this.inner = function (){
+            // console.log('inner');
+            // var b = "b";
+            return a;
+        }
+        // globalVar = inner;
+    }
+    var o = new outer();
+    console.log(o.inner());
+    // outer(); // outer
+    // globalVar(); // inner;
+
+
+    function makeAdder(x) {
+        return function(y) {
+            return x + y;
+        };
+    }
+
+    var add5 = makeAdder(5);
+    var add10 = makeAdder(10);
+
+    console.log(add5(2));  // 7
+    console.log(add10(2)); // 12
+
+
+</script>
+<!--<input type="button" onclick="a()"  value="a"/>-->
+</body>
+</html>

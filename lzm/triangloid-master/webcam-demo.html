@@ -1,0 +1,60 @@
+<html>
+
+<head>
+    <title>Triangloid - An Imagnoid tool</title>
+</head>
+
+<body>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+    <script src="triangloid.js"></script>
+    <img id="sd" />
+    <video id="video"></video>
+    <script>
+        function getImagePixelData(img) {
+            var canvas = document.createElement("canvas");
+            canvas.width = img.videoWidth;
+            canvas.height = img.videoHeight;
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+            var imageData = ctx.getImageData(0, 0, img.videoWidth, img.videoHeight);
+            var mappedData = [];
+            for (var i = 0; i < imageData.data.length; i += 4) {
+                mappedData.push([imageData.data[i], imageData.data[i + 1], imageData.data[i + 2]]);
+            }
+            return mappedData;
+        }
+
+        function draw() {
+            var video = document.getElementById("video");
+            var imageData = getImagePixelData(video);
+            var triangloid = new Triangloid({
+                cellsize: 10
+            });
+            var trianglifiedImage = triangloid.trianglifyImage(imageData, video.videoWidth, video.videoHeight);
+            var src = document.getElementById("sd").src = trianglifiedImage.getSVG();
+            document.getElementById("sd").width = video.videoWidth;
+            webkitRequestAnimationFrame(draw);
+        }
+        (function() {
+            navigator.getMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia);
+
+            navigator.getMedia({
+                    video: true,
+                    audio: false
+                },
+                function(mediaStream) {
+                    var video = document.getElementById('video');
+                    video.src = window.URL.createObjectURL(mediaStream);
+                    video.play();
+                    video.addEventListener("loadedmetadata", function() {
+                        draw();
+                    }, false);
+                },
+                function(error) {
+                    console.log(error);
+                });
+        })();
+    </script>
+</body>
+
+</html>

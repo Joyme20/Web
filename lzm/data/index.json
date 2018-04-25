@@ -1,0 +1,9 @@
+{
+  "name": "Hello",
+  "version": "0.0.1",
+  "content":"this is my first demo",
+  "start":"Ready Go!",
+  "dependencies": {
+    
+  }
+}
